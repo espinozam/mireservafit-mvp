@@ -13,5 +13,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class Cliente extends Usuario {
 
+    @Column(name = "fecha_nacimiento")
     private LocalDate fecha_nacimiento;
 }
