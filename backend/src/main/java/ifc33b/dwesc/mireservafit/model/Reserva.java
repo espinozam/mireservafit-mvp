@@ -26,8 +26,13 @@ public class Reserva {
     @JoinColumn(name = "id_entrenador", nullable = false) // referencia columna id_entrenador al id del entrenador
     private Entrenador entrenador;
 
+    @Column(name = "fecha_reserva", nullable = false)
     private LocalDate fechaReserva;
+
+    @Column(name = "hora_inicio", nullable = false)
     private LocalTime horaInicio;
+
+    @Column(name = "hora_fin", nullable = false)
     private LocalTime horaFin;
 
     private String estado;
