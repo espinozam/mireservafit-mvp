@@ -5,11 +5,11 @@ import lombok.*;
 
 @Entity
 @Table(name = "entrenador")
+@DiscriminatorValue("ENTRENADOR")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Entrenador extends Usuario {
 
-    // atributos
     private String especialidad;
 }

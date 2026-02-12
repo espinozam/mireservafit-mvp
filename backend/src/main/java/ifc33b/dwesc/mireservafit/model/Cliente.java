@@ -7,11 +7,11 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "cliente")
+@DiscriminatorValue("CLIENTE")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Cliente extends Usuario {
 
-    // atributos
-    private LocalDate fechaNacimiento;
+    private LocalDate fecha_nacimiento;
 }
