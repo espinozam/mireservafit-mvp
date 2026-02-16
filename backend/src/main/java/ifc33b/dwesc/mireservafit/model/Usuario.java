@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "usuario")
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "rol", discriminatorType = DiscriminatorTy
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -31,7 +30,16 @@ public class Usuario {
     @Column(nullable = false)
     private String rol;
 
-    private LocalDateTime create_at;
-    private LocalDateTime update_at;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    // asignar fecha a createdAt y updatedAt al crear el usuario
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
 }
