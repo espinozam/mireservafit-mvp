@@ -10,12 +10,10 @@ import ifc33b.dwesc.mireservafit.dto.LoginRequest;
 import ifc33b.dwesc.mireservafit.dto.RegisterRequest;
 import ifc33b.dwesc.mireservafit.dto.UsuarioResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import jakarta.servlet.http.HttpSession;
 
 @Service
 @RequiredArgsConstructor
@@ -25,20 +23,22 @@ public class AuthService {
     private final ClienteRepository clienteRepository;
     private final EntrenadorRepository entrenadorRepository;
     private final PasswordEncoder passwordEncoder;
-    private final AuthenticationManager authenticationManager;
+    private final HttpSession session;
 
-    public UsuarioResponse login(LoginRequest request) {
+    public UsuarioResponse login(LoginRequest request, HttpSession session) {
 
-        // autenticar usuario con crenciales del usuario
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
-        );
-
-        // generar token
-
-        // obtener usuario para devolver su información en la respuesta
+        // obtener usaurio
         Usuario usuario = usuarioRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException("No existe un usuario con ese email"));
+
+        // comprobar contraseña
+        if (!passwordEncoder.matches(request.getPassword(), usuario.getPassword())) {
+            throw new RuntimeException("Contraseña incorrecta");
+        }
+
+        // guardar sewsión del usuario autenticado
+        session.setAttribute("usuario_id", usuario.getId());
+        session.setAttribute("usuario_rol", usuario.getRol());
 
         // todo: devolver token en la respuesta
         return new UsuarioResponse(usuario.getId(), usuario.getNombre(), usuario.getEmail(), usuario.getRol());

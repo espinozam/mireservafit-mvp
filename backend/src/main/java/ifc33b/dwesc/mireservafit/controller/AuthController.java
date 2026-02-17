@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -17,11 +18,12 @@ public class AuthController {
 
     // usar el servicio de autenticacion
     private final AuthService authService;
+    private final HttpSession session;
 
     @PostMapping("/login")
     public ResponseEntity<UsuarioResponse> login(@Valid @RequestBody LoginRequest request) {
         try {
-            UsuarioResponse response = authService.login(request);
+            UsuarioResponse response = authService.login(request, session);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
