@@ -6,8 +6,9 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AuthService {
 
-  // direccion a la api del backend
-  private apiUrl = 'http://localhost:8080/api/auth';
+  // direccion a la api del backend (http://localhost:8080/api/auth)
+  // ruta relativa para activar el proxy
+  private apiUrl = '/api/auth';
 
   // constructor
   constructor(private http: HttpClient) {}
