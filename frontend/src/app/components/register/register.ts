@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -20,9 +21,26 @@ export class Register {
   especialidad = '';
 
   // constructor
-  constructor() {}
+    constructor(
+      private authService: AuthService,
+    ) {}
 
   // metodo para registrar
-  registrar() {}
+  registrar() {
+    // llamar al servicio para registrar
+    this.authService.register({
+      nombre: this.nombre,
+      email: this.email,
+      password: this.password,
+      rol: this.rol,
+      fechaNacimiento: this.fechaNacimiento,
+      especialidad: this.especialidad
+    }).subscribe({
+      next: () =>  {
+        alert('Usuario registrado correctamente');
+      },
+      error: () => alert('Error al registrar usuario')
+    });
+  }
 }
 
