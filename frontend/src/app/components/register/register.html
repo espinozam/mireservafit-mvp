@@ -1,1 +1,21 @@
-<p>register works!</p>
+<h2>Registro</h2>
+
+<form (ngSubmit)="registrar()">
+  <input type="text" [(ngModel)]="nombre" name="nombre" placeholder="Nombre" required>
+  <input type="email" [(ngModel)]="email" name="email" placeholder="Email" required>
+  <input type="password" [(ngModel)]="password" name="password" placeholder="Contraseña" required>
+  <label><input type="radio" [(ngModel)]="rol" name="rol" value="CLIENTE" checked> Cliente</label>
+  <label><input type="radio" [(ngModel)]="rol" name="rol" value="ENTRENADOR"> Entrenador</label>
+
+  <!-- Campos para clientes -->
+  <div *ngIf="rol === 'CLIENTE'">
+    <input type="date" [(ngModel)]="fechaNacimiento" name="fechaNacimiento" placeholder="Fecha de nacimiento" required>
+  </div>
+
+  <!-- Campos para entrenadores -->
+  <div *ngIf="rol === 'ENTRENADOR'">
+    <input type="text" [(ngModel)]="especialidad" name="especialidad" placeholder="Especialidad" required>
+  </div>
+
+  <button type="submit">Registrarse</button>
+</form>
