@@ -23,7 +23,6 @@ public class AuthService {
     private final ClienteRepository clienteRepository;
     private final EntrenadorRepository entrenadorRepository;
     private final PasswordEncoder passwordEncoder;
-    private final HttpSession session;
 
     public UsuarioResponse login(LoginRequest request, HttpSession session) {
 
@@ -40,7 +39,7 @@ public class AuthService {
         session.setAttribute("usuario_id", usuario.getId());
         session.setAttribute("usuario_rol", usuario.getRol());
 
-        // todo: devolver token en la respuesta
+        // devolver datos del usuario
         return new UsuarioResponse(usuario.getId(), usuario.getNombre(), usuario.getEmail(), usuario.getRol());
     }
 
