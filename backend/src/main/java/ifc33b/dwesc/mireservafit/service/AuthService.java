@@ -101,4 +101,28 @@ public class AuthService {
         Entrenador saved = entrenadorRepository.save(entrenador);
         return new UsuarioResponse(saved.getId(), saved.getNombre(), saved.getEmail(), saved.getRol());
     }
+
+    // comprobar session
+    public UsuarioResponse me(HttpSession session) {
+
+        // obtener id de usuario de la sesión
+        Object usuarioId = session.getAttribute("usuario_id");
+
+        // comprobar si usuario está autenticado
+        if (usuarioId == null) {
+            throw new RuntimeException("No hay sesión activa");
+        }
+
+        // obtener usuario de la base de datos
+        Usuario usuario = usuarioRepository.findById((Integer) usuarioId)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        // devolver datos del usuario
+        return new UsuarioResponse(
+                usuario.getId(),
+                usuario.getNombre(),
+                usuario.getEmail(),
+                usuario.getRol()
+        );
+    }
 }

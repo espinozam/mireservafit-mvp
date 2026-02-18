@@ -39,4 +39,20 @@ public class AuthController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    //endpoint para obtener los datos del usuario autenticado
+    @GetMapping("/me")
+    public ResponseEntity<UsuarioResponse> me(HttpSession session) {
+        return ResponseEntity.ok(authService.me(session));
+    }
+
+    // logout
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(HttpSession session) {
+        // destruir/invalidar sesión
+        session.invalidate();
+
+        // devolver respuesta vacía con código 200 OK
+        return ResponseEntity.ok().build();
+    }
 }
