@@ -23,11 +23,10 @@ import java.time.LocalTime;
 @RequiredArgsConstructor
 public class ReservaService {
 
-    // usar el repositorio
-    @Autowired
-    private ReservaRepository repository;
-    private ClienteRepository clienteRepository;
-    private EntrenadorRepository entrenadorRepository;
+    // usar el repositorio para acceder a la base de datos
+    private final ReservaRepository repository;
+    private final ClienteRepository clienteRepository;
+    private final EntrenadorRepository entrenadorRepository;
 
     // crear reserva
     public ReservaRequest crearReserva(ReservaRequest request, HttpSession session) {
