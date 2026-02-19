@@ -32,6 +32,19 @@ public class ReservaService {
                     "La hora de fin debe ser mayor que la hora de inicio");
         }
 
+        // obtener id del cliente autenticado de la sesión
+        Integer clienteId = (Integer) session.getAttribute("usuario_id");
+        if (clienteId == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No estás autenticado");
+        }
+
+        String rol = (String) session.getAttribute("usuario_rol");
+
+        // comprobar que el cliente autenticado tiene rol de CLIENTE
+        if (!"CLIENTE".equals(rol)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No tienes permiso para crear reservas");
+        }
+
         return null;
     }
 
