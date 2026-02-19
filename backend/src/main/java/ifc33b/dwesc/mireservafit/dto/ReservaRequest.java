@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.FutureOrPresent;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -17,6 +18,7 @@ public class ReservaRequest {
     private Integer idEntrenador;
 
     @NotNull(message = "Fecha de reserva es obligatorio")
+    @FutureOrPresent(message = "La fecha de reserva no puede ser en el pasado")
     private LocalDate fechaReserva;
 
     @NotNull(message = "Hora de inicio es obligatoria")
