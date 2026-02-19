@@ -29,7 +29,7 @@ public class ReservaService {
     private final EntrenadorRepository entrenadorRepository;
 
     // crear reserva
-    public ReservaRequest crearReserva(ReservaRequest request, HttpSession session) {
+    public ReservaResponse crearReserva(ReservaRequest request, HttpSession session) {
 
         // comprobar que horaFin debe ser mayor que horaInicio
         if (request.getHoraFin().isBefore(request.getHoraInicio()) || request.getHoraFin().equals(request.getHoraInicio())) {
