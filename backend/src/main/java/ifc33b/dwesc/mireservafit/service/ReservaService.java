@@ -1,0 +1,60 @@
+package ifc33b.dwesc.mireservafit.service;
+
+import ifc33b.dwesc.mireservafit.dto.ReservaRequest;
+import ifc33b.dwesc.mireservafit.dto.ReservaResponse;
+import ifc33b.dwesc.mireservafit.repository.ReservaRepository;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.http.HttpStatus;
+import jakarta.servlet.http.HttpSession;
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+@Service
+@RequiredArgsConstructor
+public class ReservaService {
+
+    // usar el repositorio
+    @Autowired
+    private ReservaRepository repository;
+
+    // crear reserva
+    public ReservaRequest crearReserva(ReservaRequest request, HttpSession session) {
+
+        // comprobar que horaFin debe ser mayor que horaInicio
+        if (request.getHoraFin().isBefore(request.getHoraInicio()) || request.getHoraFin().equals(request.getHoraInicio())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "La hora de fin debe ser mayor que la hora de inicio");
+        }
+
+        return null;
+    }
+
+    // listar reservas de un cliente
+    public int listarMisReservas() {
+        return 0;
+    }
+
+    // cancelar reserva
+    public int cancelarReserva() {
+        return 0;
+    }
+
+    // listar agenda de un entrenador en una semana
+    public int listarAgendaEntrenadorSemana() {
+        return 0;
+    }
+
+    // editar reserva
+    public int editarReserva() {
+        return 0;
+    }
+
+}
+
+
