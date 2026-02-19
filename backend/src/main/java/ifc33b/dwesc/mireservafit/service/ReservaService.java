@@ -1,8 +1,10 @@
 package ifc33b.dwesc.mireservafit.service;
 
+import ifc33b.dwesc.mireservafit.model.Cliente;
 import ifc33b.dwesc.mireservafit.dto.ReservaRequest;
 import ifc33b.dwesc.mireservafit.dto.ReservaResponse;
 import ifc33b.dwesc.mireservafit.repository.ReservaRepository;
+import ifc33b.dwesc.mireservafit.repository.ClienteRepository;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,7 @@ public class ReservaService {
     // usar el repositorio
     @Autowired
     private ReservaRepository repository;
+    private ClienteRepository clienteRepository;
 
     // crear reserva
     public ReservaRequest crearReserva(ReservaRequest request, HttpSession session) {
@@ -44,6 +47,10 @@ public class ReservaService {
         if (!"CLIENTE".equals(rol)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No tienes permiso para crear reservas");
         }
+
+        // obtener cliente a partir del id del cliente autenticado
+        Cliente cliente = clienteRepository.findById(clienteId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente no encontrado"));
 
         return null;
     }
