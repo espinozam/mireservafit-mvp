@@ -18,6 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
+import java.time.LocalTime;
 
 @Service
 @RequiredArgsConstructor
@@ -30,12 +31,6 @@ public class ReservaService {
 
     // crear reserva
     public ReservaResponse crearReserva(ReservaRequest request, HttpSession session) {
-
-        // comprobar que horaFin debe ser mayor que horaInicio
-        if (request.getHoraFin().isBefore(request.getHoraInicio()) || request.getHoraFin().equals(request.getHoraInicio())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "La hora de fin debe ser mayor que la hora de inicio");
-        }
 
         // obtener id del cliente autenticado de la sesión
         Integer clienteId = (Integer) session.getAttribute("usuario_id");
@@ -61,16 +56,18 @@ public class ReservaService {
         Entrenador entrenador = entrenadorRepository.findById(entrenadorId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Entrenador no encontrado"));
 
-        // comprobar solapamientos
-        // obtener reservas del entrenador en la fecha de la reserva
+        // reservas del entrenador en la fecha de la reserva
         List<Reserva> reservasEntrenador = repository.findByEntrenadorIdAndFechaReserva(entrenadorId, request.getFechaReserva());
 
-        // comprobar solapamiento de reservas del entrenador con la nueva reserva
+        // hora de inicio y hora de fin de la nueva reserva
+        LocalTime horaInicio = request.getHoraInicio();
+        LocalTime horaFin = horaInicio.plusHours(1); // duración fija de 1 hora
+
+        // comprobar reservas actuales del entrenador no se solapan con la nueva reserva
         for (Reserva reserva : reservasEntrenador) {
             // existe solapamiento si:
             // horaInicio < horaFinReservaExistente && horaFin > horaInicioReservaExistente
-            if (request.getHoraInicio().isBefore(reserva.getHoraFin()) &&
-                    request.getHoraFin().isAfter(reserva.getHoraInicio())) {
+            if (horaInicio.isBefore(reserva.getHoraFin()) && horaFin.isAfter(reserva.getHoraInicio())) {
                 throw new ResponseStatusException(HttpStatus.CONFLICT, "La reserva se solapa con otra reserva existente");
             }
         }
@@ -81,7 +78,7 @@ public class ReservaService {
         reserva.setEntrenador(entrenador);
         reserva.setFechaReserva(request.getFechaReserva());
         reserva.setHoraInicio(request.getHoraInicio());
-        reserva.setHoraFin(request.getHoraFin());
+        reserva.setHoraFin(request.getHoraInicio().plusHours(1)); // duración fija de 1 hora
         reserva.setEstado("CONFIRMADO");
 
         // guardar reserva en la base de datos

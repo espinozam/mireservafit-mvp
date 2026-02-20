@@ -23,7 +23,4 @@ public class ReservaRequest {
 
     @NotNull(message = "Hora de inicio es obligatoria")
     private LocalTime horaInicio;
-
-    @NotNull(message = "Hora de fin es obligatoria")
-    private LocalTime horaFin;
 }
