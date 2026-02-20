@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import java.time.LocalTime;
+import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor
@@ -167,8 +168,43 @@ public class ReservaService {
     }
 
     // listar agenda de un entrenador en una semana
-    public int listarAgendaEntrenadorSemana() {
-        return 0;
+    public List<ReservaResponse> listarAgendaEntrenadorSemana(HttpSession session) {
+        // Comprobar si cliente autenticado
+        Integer clienteId = (Integer) session.getAttribute("usuario_id");
+        if (clienteId == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No estás autenticado");
+        }
+
+        // Comprobar si el cliente autenticado tiene rol de ENTRENDOR
+        String rol = (String) session.getAttribute("usuario_rol");
+        if (!"ENTRENADOR".equals(rol)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No tienes permiso para ver agenda de reservas");
+        }
+
+        // obtener entrenador a partir del id del cliente autenticado
+        Entrenador entrenador = entrenadorRepository.findById(clienteId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Entrenador no encontrado"));
+
+        // obtener reservas del entrenador de la semana
+        List<Reserva> reservasEntrenadorSemana = repository.findByEntrenadorIdAndFechaReservaBetweenOrderByFechaReservaAscHoraInicioAsc(
+                entrenador.getId(),
+                LocalDate.now(), // fecha de inicio: hoy
+                LocalDate.now().plusDays(7) // fecha de fin: dentro de 7 días
+        );
+
+        // devolver response con las reservas del entrenador
+        return reservasEntrenadorSemana.stream()
+                .map(reserva -> new ReservaResponse(
+                        reserva.getId(),
+                        reserva.getCliente().getNombre(),
+                        reserva.getEntrenador().getNombre(),
+                        reserva.getFechaReserva(),
+                        reserva.getHoraInicio(),
+                        reserva.getHoraFin(),
+                        reserva.getEstado()
+                ))
+                .toList();
+
     }
 
     // editar reserva
