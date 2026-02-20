@@ -155,6 +155,10 @@ public class ReservaService {
         Reserva reserva = repository.findByIdAndClienteId(id, clienteId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Reserva no encontrada"));
 
+        // si reserva está cancelada, no hacer nada (idempotente)
+        if (reserva.getEstado().equals("CANCELADO")) {
+            return;
+        }
         // cancelar reserva
         reserva.setEstado("CANCELADO");
 
