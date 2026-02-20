@@ -5,6 +5,7 @@ import ifc33b.dwesc.mireservafit.model.Entrenador;
 import ifc33b.dwesc.mireservafit.model.Reserva;
 import ifc33b.dwesc.mireservafit.dto.ReservaRequest;
 import ifc33b.dwesc.mireservafit.dto.ReservaResponse;
+import ifc33b.dwesc.mireservafit.dto.DashboardResponse;
 import ifc33b.dwesc.mireservafit.repository.ReservaRepository;
 import ifc33b.dwesc.mireservafit.repository.ClienteRepository;
 import ifc33b.dwesc.mireservafit.repository.EntrenadorRepository;
@@ -205,6 +206,23 @@ public class ReservaService {
                 ))
                 .toList();
 
+    }
+
+    // dashboard de entrenador
+    public DashboardResponse obtenerDashboardEntrenador(HttpSession session) {
+        // reutilizar metodo listarAgendaEntrenadorSemana
+        List<ReservaResponse> reservasEntrenadorSemana = listarAgendaEntrenadorSemana(session);
+
+        // total reservas
+        Long totalReservas = (Long) reservasEntrenadorSemana.size();
+
+        // reservas CONFIRMADAS, pendientes por realizar
+        Long totalReservasConfirmadas = reservasEntrenadorSemana.stream()
+                .filter(reserva -> "CONFIRMADO".equals(reserva.getEstado()))
+                .count();
+
+        // devolver response con los datos del dashboard
+        return new DashboardResponse(totalReservas, totalReservasConfirmadas);
     }
 
     // editar reserva
