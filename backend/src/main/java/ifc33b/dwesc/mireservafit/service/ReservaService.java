@@ -63,6 +63,12 @@ public class ReservaService {
         LocalTime horaInicio = request.getHoraInicio();
         LocalTime horaFin = horaInicio.plusHours(1); // duración fija de 1 hora
 
+        // comprobar que la hora de inicio es dentro del horario permitido (8:00 a 21:00)
+        if (horaInicio.isBefore(LocalTime.of(8, 0)) ||
+                horaFin.isAfter(LocalTime.of(21, 0))) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "La reserva debe ser entre las 8:00 y las 21:00");
+        }
+
         // comprobar reservas actuales del entrenador no se solapan con la nueva reserva
         for (Reserva reserva : reservasEntrenador) {
             // existe solapamiento si:
