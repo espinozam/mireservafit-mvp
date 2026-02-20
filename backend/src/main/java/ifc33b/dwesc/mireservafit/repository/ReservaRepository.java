@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ReservaRepository extends JpaRepository<Reserva, Integer> {
@@ -16,4 +17,8 @@ public interface ReservaRepository extends JpaRepository<Reserva, Integer> {
 
     // Metodo para listar reservas de cliente
     List<Reserva> findByClienteId(Integer clienteId);
+
+    // Metodo para obtener reserva por id y asignado a cliente
+    Optional<Reserva> findByIdAndClienteId(Integer id, Integer clientId);
+
 }

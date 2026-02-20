@@ -138,8 +138,28 @@ public class ReservaService {
     }
 
     // cancelar reserva
-    public int cancelarReserva() {
-        return 0;
+    public void cancelarReserva(Integer id, HttpSession session) {
+        // Comprobar si cliente autenticado
+        Integer clienteId = (Integer) session.getAttribute("usuario_id");
+        if (clienteId == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No estás autenticado");
+        }
+
+        // Comprobar si el cliente autenticado tiene rol de CLIENTE
+        String rol = (String) session.getAttribute("usuario_rol");
+        if (!"CLIENTE".equals(rol)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No tienes permiso para ver reservas");
+        }
+
+        // buscar reserva por id y cliente
+        Reserva reserva = repository.findByIdAndClienteId(id, clienteId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Reserva no encontrada"));
+
+        // cancelar reserva
+        reserva.setEstado("CANCELADO");
+
+        // Guardar reserva cancelada en la base de datos para el historial de reservas del cliente
+        repository.save(reserva);
     }
 
     // listar agenda de un entrenador en una semana
