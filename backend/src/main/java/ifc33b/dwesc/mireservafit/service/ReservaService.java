@@ -2,6 +2,7 @@ package ifc33b.dwesc.mireservafit.service;
 
 import ifc33b.dwesc.mireservafit.model.Cliente;
 import ifc33b.dwesc.mireservafit.model.Entrenador;
+import ifc33b.dwesc.mireservafit.model.Reserva;
 import ifc33b.dwesc.mireservafit.dto.ReservaRequest;
 import ifc33b.dwesc.mireservafit.dto.ReservaResponse;
 import ifc33b.dwesc.mireservafit.repository.ReservaRepository;
@@ -16,8 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
 import jakarta.servlet.http.HttpSession;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -60,6 +60,21 @@ public class ReservaService {
         // obtener entrenador del request
         Entrenador entrenador = entrenadorRepository.findById(entrenadorId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Entrenador no encontrado"));
+
+        // comprobar solapamientos
+        // obtener reservas del entrenador en la fecha de la reserva
+        List<Reserva> reservasEntrenador = repository.findByEntrenadorIdAndFechaReserva(entrenadorId, request.getFechaReserva());
+
+        // comprobar solapamiento de reservas del entrenador con la nueva reserva
+        for (Reserva reserva : reservasEntrenador) {
+            // existe solapamiento si:
+            // horaInicio < horaFinReservaExistente && horaFin > horaInicioReservaExistente
+            if (request.getHoraInicio().isBefore(reserva.getHoraFin()) &&
+                    request.getHoraFin().isAfter(reserva.getHoraInicio())) {
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "La reserva se solapa con otra reserva existente");
+            }
+
+        }
 
         return null;
     }
