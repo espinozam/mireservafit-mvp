@@ -83,8 +83,8 @@ public class ReservaService {
         reserva.setCliente(cliente);
         reserva.setEntrenador(entrenador);
         reserva.setFechaReserva(request.getFechaReserva());
-        reserva.setHoraInicio(request.getHoraInicio());
-        reserva.setHoraFin(request.getHoraInicio().plusHours(1)); // duración fija de 1 hora
+        reserva.setHoraInicio(horaInicio);
+        reserva.setHoraFin(horaFin);
         reserva.setEstado("CONFIRMADO");
 
         // guardar reserva en la base de datos
