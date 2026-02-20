@@ -214,7 +214,7 @@ public class ReservaService {
         List<ReservaResponse> reservasEntrenadorSemana = listarAgendaEntrenadorSemana(session);
 
         // total reservas
-        Long totalReservas = (Long) reservasEntrenadorSemana.size();
+        Long totalReservas = (long) reservasEntrenadorSemana.size();
 
         // reservas CONFIRMADAS, pendientes por realizar
         Long totalReservasConfirmadas = reservasEntrenadorSemana.stream()
