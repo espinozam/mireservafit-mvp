@@ -103,8 +103,38 @@ public class ReservaService {
     }
 
     // listar reservas de un cliente
-    public int listarMisReservas() {
-        return 0;
+    public List<ReservaResponse> listarMisReservas(ReservaRequest request, HttpSession session) {
+        // Comprobar si cliente autenticado
+        Integer clienteId = (Integer) session.getAttribute("usuario_id");
+        if (clienteId == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No estás autenticado");
+        }
+
+        // Comprobar si el cliente autenticado tiene rol de CLIENTE
+        String rol = (String) session.getAttribute("usuario_rol");
+        if (!"CLIENTE".equals(rol)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No tienes permiso para ver reservas");
+        }
+
+        // comprobar si el cliente existe
+        Cliente cliente = clienteRepository.findById(clienteId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente no encontrado"));
+
+        // obtener reservas del cliente
+        List<Reserva> reservasCliente = repository.findByClienteId(clienteId);
+
+        // devolver response con las reservas del cliente
+        return reservasCliente.stream()
+                .map(reserva -> new ReservaResponse(
+                        reserva.getId(),
+                        reserva.getCliente().getNombre(),
+                        reserva.getEntrenador().getNombre(),
+                        reserva.getFechaReserva(),
+                        reserva.getHoraInicio(),
+                        reserva.getHoraFin(),
+                        reserva.getEstado()
+                ))
+                .toList();
     }
 
     // cancelar reserva

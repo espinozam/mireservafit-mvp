@@ -13,4 +13,7 @@ public interface ReservaRepository extends JpaRepository<Reserva, Integer> {
 
     // Metodo para encontrar reservas por entrenador y fecha
     List<Reserva> findByEntrenadorIdAndFechaReserva(Integer entrenadorId, LocalDate fechaReserva);
+
+    // Metodo para listar reservas de cliente
+    List<Reserva> findByClienteId(Integer clienteId);
 }
