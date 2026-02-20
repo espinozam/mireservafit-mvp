@@ -103,7 +103,7 @@ public class ReservaService {
     }
 
     // listar reservas de un cliente
-    public List<ReservaResponse> listarMisReservas(ReservaRequest request, HttpSession session) {
+    public List<ReservaResponse> listarMisReservas(HttpSession session) {
         // Comprobar si cliente autenticado
         Integer clienteId = (Integer) session.getAttribute("usuario_id");
         if (clienteId == null) {
