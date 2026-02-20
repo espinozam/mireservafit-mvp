@@ -73,10 +73,30 @@ public class ReservaService {
                     request.getHoraFin().isAfter(reserva.getHoraInicio())) {
                 throw new ResponseStatusException(HttpStatus.CONFLICT, "La reserva se solapa con otra reserva existente");
             }
-
         }
 
-        return null;
+        // crear reserva
+        Reserva reserva = new Reserva();
+        reserva.setCliente(cliente);
+        reserva.setEntrenador(entrenador);
+        reserva.setFechaReserva(request.getFechaReserva());
+        reserva.setHoraInicio(request.getHoraInicio());
+        reserva.setHoraFin(request.getHoraFin());
+        reserva.setEstado("CONFIRMADO");
+
+        // guardar reserva en la base de datos
+        Reserva reservaGuardada = repository.save(reserva);
+
+        // devolver response
+        return new ReservaResponse(
+                reservaGuardada.getId(),
+                reservaGuardada.getCliente().getNombre(),
+                reservaGuardada.getEntrenador().getNombre(),
+                reservaGuardada.getFechaReserva(),
+                reservaGuardada.getHoraInicio(),
+                reservaGuardada.getHoraFin(),
+                reservaGuardada.getEstado()
+        );
     }
 
     // listar reservas de un cliente
