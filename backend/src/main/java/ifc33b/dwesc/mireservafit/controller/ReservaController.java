@@ -34,6 +34,7 @@ public class ReservaController {
         return ResponseEntity.ok(reservas);
     }
 
+    // Endpoint para crear una nueva reserva
     @PostMapping("crear")
     public ResponseEntity<ReservaResponse> createReserva(@Valid @RequestBody ReservaRequest request, HttpSession session) {
         try {
@@ -46,5 +47,17 @@ public class ReservaController {
         }
     }
 
+    // Endpoint para eliminar una reserva por su id
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteReserva(@PathVariable Integer id, HttpSession session) {
+        try {
+            // llmar al servicio para eliminar/cancela la reserva
+            // y devolver codigo 204 No Content
+            reservaService.cancelarReserva(id, session);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 
 }
