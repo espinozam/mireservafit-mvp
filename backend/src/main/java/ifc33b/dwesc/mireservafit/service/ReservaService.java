@@ -6,7 +6,6 @@ import ifc33b.dwesc.mireservafit.model.Reserva;
 import ifc33b.dwesc.mireservafit.dto.ReservaRequest;
 import ifc33b.dwesc.mireservafit.dto.ReservaResponse;
 import ifc33b.dwesc.mireservafit.dto.DashboardResponse;
-import ifc33b.dwesc.mireservafit.dto.DisponibilidadResponse;
 import ifc33b.dwesc.mireservafit.repository.ReservaRepository;
 import ifc33b.dwesc.mireservafit.repository.ClienteRepository;
 import ifc33b.dwesc.mireservafit.repository.EntrenadorRepository;
@@ -227,19 +226,19 @@ public class ReservaService {
     }
 
     // disponibilidad de un entrenador en una fecha
-    public DisponibilidadResponse obtenerDisponibilidadEntrenador(Integer entrenadorId, LocalDate fecha) {
+    public List<String> obtenerDisponibilidadEntrenador(Integer entrenadorId, LocalDate fecha) {
         // reservas del enmtrenador
         List<Reserva> reservas = repository.findByEntrenadorIdAndFechaReserva(entrenadorId, fecha);
 
         // horas ocupadas/pendientes, ejemplo: "10:00", "11:00"
         List<String> horasOcupadas = reservas.stream()
-                .filter(reserva -> "CONFIRMADO".equals(reserva.getEstado()))
-                .filter(reserva -> "PENDIENTE".equals(reserva.getEstado()))
+                .filter(reserva -> "CONFIRMADO".equals(reserva.getEstado()) ||
+                        "PENDIENTE".equals(reserva.getEstado()))
                 .map(reserva -> reserva.getHoraInicio().toString()) // extraer hora inicio como string
                 .toList();
 
         // devolver response con la lista de horas ocupadas
-        return new DisponibilidadResponse(horasOcupadas);
+        return horasOcupadas;
     }
 
     // editar reserva
