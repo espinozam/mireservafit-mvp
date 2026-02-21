@@ -3,15 +3,15 @@
 <form (ngSubmit)="crearReserva()">
 
   <label>Entrenador ID:</label>
-  <input type="number" [(ngModel)]="reserva.idEntrenador" required>
+  <input type="number" [(ngModel)]="reserva.idEntrenador" name="idEntrenador" required>
   <br>
 
   <label>Fecha:</label>
-  <input type="date" [(ngModel)]="reserva.fechaReserva" required>
+  <input type="date" [(ngModel)]="reserva.fechaReserva" name="fechaReserva" required>
   <br>
 
   <label>Hora:</label>
-  <input type="time" [(ngModel)]="reserva.horaInicio" required>
+  <input type="time" [(ngModel)]="reserva.horaInicio" name="horaInicio" required>
   <br>
 
   <button type="submit">Crear reserva</button>
