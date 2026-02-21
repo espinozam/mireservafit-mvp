@@ -2,6 +2,7 @@ package ifc33b.dwesc.mireservafit.controller;
 
 import ifc33b.dwesc.mireservafit.model.Reserva;
 import ifc33b.dwesc.mireservafit.dto.ReservaResponse;
+import ifc33b.dwesc.mireservafit.dto.DashboardResponse;
 import ifc33b.dwesc.mireservafit.service.ReservaService;
 
 import jakarta.validation.Valid;
@@ -29,6 +30,16 @@ public class EntrenadorController {
         List<ReservaResponse> response = reservaService.listarAgendaEntrenadorSemana(session);
 
         // devolver agenda de reservas y codigo 200 OK
+        return ResponseEntity.ok(response);
+    }
+
+    // endpoint dashboard de entrenador
+    @GetMapping("/dashboard")
+    public ResponseEntity<DashboardResponse> getDashboard(HttpSession session) {
+        // obtener datos para el dashboard
+        DashboardResponse response = reservaService.obtenerDashboardEntrenador(session);
+
+        // devolver datos del dashboard y codigo 200 OK
         return ResponseEntity.ok(response);
     }
 
