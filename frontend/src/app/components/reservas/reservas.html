@@ -1,1 +1,18 @@
-<p>reservas works!</p>
+<h2>Crear reserva</h2>
+
+<form (ngSubmit)="crearReserva()">
+
+  <label>Entrenador ID:</label>
+  <input type="number" [(ngModel)]="reserva.idEntrenador" required>
+  <br>
+
+  <label>Fecha:</label>
+  <input type="date" [(ngModel)]="reserva.fechaReserva" required>
+  <br>
+
+  <label>Hora:</label>
+  <input type="time" [(ngModel)]="reserva.horaInicio" required>
+  <br>
+
+  <button type="submit">Crear reserva</button>
+</form>
