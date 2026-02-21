@@ -18,4 +18,12 @@ export class Reservas {
     horaInicio: ''
   }
 
+  // inyectar servicio de reservas
+  constructor(private reservaService: ReservaService) { }
+
+  // metodo para crear reserva
+  crearReserva() {
+    console.log('Creando reserva:', this.reserva);
+  }
+
 }
