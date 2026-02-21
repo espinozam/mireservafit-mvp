@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/api/reservas")
@@ -60,4 +61,13 @@ public class ReservaController {
         }
     }
 
+    // endpoint para obtener horas ocupadas de entrenador
+    @GetMapping("/disponibilidad")
+    public ResponseEntity<List<String>> getDisponibilidad(
+            @RequestParam Integer entrenadorId,
+            @RequestParam LocalDate fecha
+    ) {
+        List<String> horasOcupadas = reservaService.obtenerDisponibilidadEntrenador(entrenadorId, fecha);
+        return ResponseEntity.ok(horasOcupadas);
+    }
 }
