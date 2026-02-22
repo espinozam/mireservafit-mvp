@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ReservaService } from '../../services/reserva.service';
 import { ReservaRequest } from '../../models/reserva-request.model';
+import { ReservaResponse } from '../../models/reserva-response.model';
 
 @Component({
   selector: 'app-reservas',
@@ -18,6 +19,9 @@ export class Reservas {
     fechaReserva: '',
     horaInicio: ''
   }
+
+  // lista de reservas
+  reservas: ReservaResponse[] = [];
 
   // inyectar servicio de reservas
   constructor(private reservaService: ReservaService) { }
@@ -36,4 +40,15 @@ export class Reservas {
     });
   }
 
+  // metodo para mostrar mis reservas
+  cargarReservas(){
+    this.reservaService.getReservas().subscribe({
+      next: (response) => {
+        this.reservas = response;
+      },
+      error: (error) => {
+        alert("Error: " + error.error.message); // mostrar mensaje de error del backend
+      }
+    })
+  }
 }
