@@ -38,7 +38,7 @@
     }
   },
 
-  "postCreateCommand": "bash -lc 'mvn -q clean install && npm -g i @angular/cli@latest && (cd frontend && npm ci || cd frontend && npm install) '",
+  "postCreateCommand": "npm install -g @angular/cli && cd backend && mvn install -DskipTests",
 
   "forwardPorts": [8080, 4200, 3306],
   "portsAttributes": {
