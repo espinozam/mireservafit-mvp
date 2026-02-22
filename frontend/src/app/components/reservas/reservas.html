@@ -28,5 +28,6 @@
     Nombre Cliente: {{ reserva.nombreCliente }} <br>
     Nombre Entrenador: {{ reserva.nombreEntrenador }}
   </p>
+  <button (click)="cancelarReserva(reserva.id)") [disabled]="reserva.estado === 'CANCELADO'">Cancelar</button>
 </div>
 

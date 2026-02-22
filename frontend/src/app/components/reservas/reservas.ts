@@ -56,4 +56,7 @@ export class Reservas implements OnInit {
       }
     })
   }
+
+  // metodo para cancelar reserva
+  cancelarReserva(id: number) {}
 }
