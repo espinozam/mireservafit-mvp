@@ -124,13 +124,16 @@ Esto creará la base de datos mireservafit con las tablas usuarios y reservas y 
 
 1. **Compilar y ejecutar el backend**
 
-```bash
-# 1. iniciar el backend
+* Inicia el backend
+```
 cd backend
 mvn spring-boot:run
+```
 
-# 2. iniciar el frontend
-cd ../frontend
+* En otra terminal inicia el frontend:
+
+```
+cd frontend
 ng serve
 ```
 
