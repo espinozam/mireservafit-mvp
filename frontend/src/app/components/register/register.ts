@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -23,6 +24,7 @@ export class Register {
   // constructor
     constructor(
       private authService: AuthService,
+      private router: Router
     ) {}
 
   // metodo para registrar
@@ -37,7 +39,9 @@ export class Register {
       especialidad: this.especialidad
     }).subscribe({
       next: () =>  {
-        alert('Usuario registrado correctamente');
+        // redirigir a login
+        this.router.navigate(['/login']);
+        alert('Usuario registrado correctamente!');
       },
       error: (error) => alert('Error: ' + error.error.message)
     });
