@@ -21,4 +21,9 @@ export class ReservaService {
       return this.http.post<ReservaResponse>(`${this.apiUrl}/crear`, reservaRequest, { withCredentials: true });
     }
 
+    // metodo para obtener mis reservas
+    getReservas(): Observable<ReservaResponse[]> {
+      return this.http.get<ReservaResponse[]>(this.apiUrl, { withCredentials: true} );
+    }
+
 }
