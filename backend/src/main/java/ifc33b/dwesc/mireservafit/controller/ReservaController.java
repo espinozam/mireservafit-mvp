@@ -38,14 +38,10 @@ public class ReservaController {
     // Endpoint para crear una nueva reserva
     @PostMapping("crear")
     public ResponseEntity<ReservaResponse> createReserva(@Valid @RequestBody ReservaRequest request, HttpSession session) {
-        try {
-            // llamar al servicio para crear la reserva
-            // devolver reserva creada en el body de la respuesta y código 200 OK
-            ReservaResponse response = reservaService.crearReserva(request, session);
-            return ResponseEntity.ok(response);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        // llamar al servicio para crear la reserva
+        // devolver reserva creada en el body de la respuesta y código 200 OK
+        ReservaResponse response = reservaService.crearReserva(request, session);
+        return ResponseEntity.ok(response);
     }
 
     // Endpoint para eliminar una reserva por su id
