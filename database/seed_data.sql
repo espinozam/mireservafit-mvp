@@ -16,14 +16,15 @@ INSERT INTO `entrenador` VALUES
 (3,'Musculación'),
 (4,'Crossfit');
 
+-- Reservas
+
 -- Reservas de sesiones de Xavier
+-- Reservas de sesiones de Katia
 INSERT INTO `reserva` VALUES
 (1,1,3,'2026-03-01','10:00:00','11:00:00','CONFIRMADO'),
 (2,1,4,'2026-03-02','12:00:00','13:00:00','CONFIRMADO'),
-(3,1,3,'2026-03-03','09:00:00','10:00:00','CANCELADO');
+(3,1,3,'2026-03-03','09:00:00','10:00:00','CANCELADO'),
 
--- Reservas de sesiones de Katia
-INSERT INTO `reserva` VALUES
 (4,2,3,'2026-03-01','11:00:00','12:00:00','CONFIRMADO'),
 (5,2,4,'2026-03-02','18:00:00','19:00:00','CONFIRMADO'),
 (6,2,3,'2026-03-04','15:00:00','16:00:00','CONFIRMADO');
