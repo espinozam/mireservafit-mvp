@@ -58,5 +58,16 @@ export class Reservas implements OnInit {
   }
 
   // metodo para cancelar reserva
-  cancelarReserva(id: number) {}
+  cancelarReserva(id: number) {
+    this.reservaService.cancelReserva(id).subscribe({
+      next: () => {
+        // actualizar lista
+        this.cargarReservas();
+        alert("Reserva cancelada!");
+      },
+      error: (error) => {
+        alert("Error: " + error.error.message)
+      }
+    })
+  }
 }

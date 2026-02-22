@@ -26,4 +26,8 @@ export class ReservaService {
       return this.http.get<ReservaResponse[]>(this.apiUrl, { withCredentials: true} );
     }
 
+    // metodo para canceñar reserva
+    cancelReserva(id: number): Observable<void> {
+      return this.http.delete<void>(`${this.apiUrl}/${id}`, { withCredentials: true })
+    }
 }
