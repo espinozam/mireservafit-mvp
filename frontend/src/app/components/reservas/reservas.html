@@ -16,3 +16,17 @@
 
   <button type="submit">Crear reserva</button>
 </form>
+
+<h2>Mis reservas</h2>
+
+<div *ngFor="let reserva of reservas">
+  <strong>{{ reserva.fechaReserva }}</strong> -
+  {{ reserva.horaInicio }} a {{ reserva.horaFin }}
+  ({{ reserva.estado }})
+  <p>
+    ID Reserva: {{ reserva.id }} <br>
+    Nombre Cliente: {{ reserva.nombreCliente }} <br>
+    Nombre Entrenador: {{ reserva.nombreEntrenador }}
+  </p>
+</div>
+

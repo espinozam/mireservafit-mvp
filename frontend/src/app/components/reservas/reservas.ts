@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ReservaService } from '../../services/reserva.service';
@@ -7,11 +7,11 @@ import { ReservaResponse } from '../../models/reserva-response.model';
 
 @Component({
   selector: 'app-reservas',
-  imports: [FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './reservas.html',
   styleUrl: './reservas.scss',
 })
-export class Reservas {
+export class Reservas implements OnInit {
 
   // datos del formulario
   reserva: ReservaRequest = {
@@ -25,6 +25,11 @@ export class Reservas {
 
   // inyectar servicio de reservas
   constructor(private reservaService: ReservaService) { }
+
+  // cargar al iniciar el componente
+  ngOnInit() {
+    this.cargarReservas();
+  }
 
   // metodo para crear reserva
   crearReserva() {
