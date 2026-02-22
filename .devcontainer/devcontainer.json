@@ -8,9 +8,16 @@
     "ghcr.io/devcontainers/features/java:1": {
       "version": "21",
       "installMaven": "true"
+    },
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "20"
     }
   },
-
+  "remoteEnv": {
+    "DB_URL": "jdbc:mysql://mysql:3306/mireservafit_bd?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC",
+    "DB_USERNAME": "fit_user",
+    "DB_PASSWORD": "fit123"
+  },
   "customizations": {
     "vscode": {
       "extensions": [
