@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ReservaService } from '../../services/reserva.service';
+import { ReservaRequest } from '../../models/reserva-request.model';
 
 @Component({
   selector: 'app-reservas',
@@ -12,8 +13,8 @@ import { ReservaService } from '../../services/reserva.service';
 export class Reservas {
 
   // datos del formulario
-  reserva = {
-    idEntrenador: '',
+  reserva: ReservaRequest = {
+    idEntrenador: 0,
     fechaReserva: '',
     horaInicio: ''
   }
@@ -24,6 +25,13 @@ export class Reservas {
   // metodo para crear reserva
   crearReserva() {
     console.log('Creando reserva:', this.reserva);
+
+    // llamar al servicio para crear reserva
+    this.reservaService.createReserva(this.reserva).subscribe({
+      next: (response) => {
+        console.log(response)
+        }
+    });
   }
 
 }
