@@ -3,6 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-login',
   imports: [CommonModule, FormsModule],
@@ -18,6 +20,7 @@ export class Login {
   // constructor
   constructor(
     private authService: AuthService,
+    private router: Router
   ) {}
 
   // metodo para hacer login
@@ -26,10 +29,17 @@ export class Login {
       email: this.email,
       password: this.password
     }).subscribe({
-      next: () =>  {
+      next: (response) =>  {
+        console.log('Login exitoso:', response);
+          // comprobabos rol y redirigir a la página principal o dashboard
+          if (response.rol == 'CLIENTE') {
+            this.router.navigate(['/reservas']);
+          } else if (response.rol == 'ENTRENADOR') {
+            this.router.navigate(['/dashboard']);
+          }
           alert('Inicio de sesión correcto');
         },
-      error: () => alert('Login incorrecto')
+      error: (error) => alert('Login incorrecto! Error: ' + error.error.message)
     });
   }
 }
