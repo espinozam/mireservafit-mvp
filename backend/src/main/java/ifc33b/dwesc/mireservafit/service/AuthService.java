@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import jakarta.servlet.http.HttpSession;
+import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor
@@ -64,6 +65,11 @@ public class AuthService {
             // obtener fechaNacimiento y validar que no sea nula
             if (request.getFechaNacimiento() == null) {
                 throw new RuntimeException("fechaNacimiento es obligatorio para CLIENTE");
+            }
+
+            // validar edad mínima de 16 años
+            if (request.getFechaNacimiento().isAfter(LocalDate.now().minusYears(16))) {
+                throw new RuntimeException("Debes tener al menos 16 años para registrarte");
             }
 
             // Instanciar cliente

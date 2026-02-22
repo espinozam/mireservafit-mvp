@@ -32,12 +32,8 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<UsuarioResponse> register(@Valid @RequestBody RegisterRequest request) {
-        try {
-            UsuarioResponse response = authService.register(request);
-            return ResponseEntity.ok(response);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        UsuarioResponse response = authService.register(request);
+        return ResponseEntity.ok(response);
     }
 
     //endpoint para obtener los datos del usuario autenticado

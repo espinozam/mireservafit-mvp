@@ -39,7 +39,7 @@ export class Register {
       next: () =>  {
         alert('Usuario registrado correctamente');
       },
-      error: () => alert('Error al registrar usuario')
+      error: (error) => alert('Error: ' + error.error.message)
     });
   }
 }
