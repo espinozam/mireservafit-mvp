@@ -23,7 +23,8 @@
       "extensions": [
         "vscjava.vscode-java-pack",
         "vscjava.vscode-spring-boot-dashboard",
-        "pivotal.vscode-spring-boot"
+        "pivotal.vscode-spring-boot",
+        "angular.ng-template"
       ],
       "settings": {
         "java.configuration.runtimes": [
@@ -37,12 +38,16 @@
     }
   },
 
-  "postCreateCommand": "mvn -q clean install",
+  "postCreateCommand": "bash -lc 'mvn -q clean install && npm -g i @angular/cli@latest && (cd frontend && npm ci || cd frontend && npm install) '",
 
-  "forwardPorts": [8080, 3306],
+  "forwardPorts": [8080, 4200, 3306],
   "portsAttributes": {
     "8080": {
       "label": "Spring Boot Application",
+      "onAutoForward": "notify"
+    },
+    "4200": {
+      "label": "Angular Dev Server",
       "onAutoForward": "notify"
     },
     "3306": {
