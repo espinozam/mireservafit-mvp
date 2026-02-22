@@ -1,12 +1,16 @@
 {
-  "name": "Java Spring Boot Dev Container",
-  "image": "mcr.microsoft.com/devcontainers/java:17",
+  "name": "MiReservaFit (Codespaces)",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspaces/mireservafit-mvp",
+
   "features": {
     "ghcr.io/devcontainers/features/java:1": {
-      "version": "17",
+      "version": "21",
       "installMaven": "true"
     }
   },
+
   "customizations": {
     "vscode": {
       "extensions": [
@@ -17,7 +21,7 @@
       "settings": {
         "java.configuration.runtimes": [
           {
-            "name": "JavaSE-17",
+            "name": "JavaSE-21",
             "path": "/usr/local/sdkman/candidates/java/current",
             "default": true
           }
@@ -25,12 +29,18 @@
       }
     }
   },
-  "postCreateCommand": "mvn clean install",
-  "forwardPorts": [8080],
+
+  "postCreateCommand": "mvn -q clean install",
+
+  "forwardPorts": [8080, 3306],
   "portsAttributes": {
     "8080": {
       "label": "Spring Boot Application",
       "onAutoForward": "notify"
+    },
+    "3306": {
+      "label": "MySQL",
+      "onAutoForward": "silent"
     }
   }
 }
