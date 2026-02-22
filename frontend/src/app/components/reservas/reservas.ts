@@ -24,13 +24,15 @@ export class Reservas {
 
   // metodo para crear reserva
   crearReserva() {
-    console.log('Creando reserva:', this.reserva);
 
     // llamar al servicio para crear reserva
     this.reservaService.createReserva(this.reserva).subscribe({
       next: (response) => {
-        console.log(response)
-        }
+        alert("Reserva creada con id: " + response.id);
+      },
+      error: (error) => {
+        alert("Error: " + error.error.message); // mostrar mensaje de error del backend
+      }
     });
   }
 
